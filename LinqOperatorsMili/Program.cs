@@ -15,8 +15,39 @@ namespace LinqOperatorsMili
         {
             //Filetering();
             //Sorting();
-            Sets();
+            //Sets();
+            //Quantifiers();
+            //Projection();
 
+        }
+
+        private static void Projection()
+        {
+            string[] famousQuotes =
+            {
+                "Advertising is legalized lying",
+                "Advertising is the greatest art form of the twentieth century"
+            };
+
+            var query1 =
+                (from sentance in famousQuotes
+                from word in sentance.Split(' ')
+                select word).Distinct();
+
+            var query2 = famousQuotes.SelectMany(sentance => sentance.Split(' ')).Distinct();
+       }
+
+        private static void Quantifiers()
+        {
+            Book book = new Book { Author = "Herman", Name = "Moby Dick" };
+
+            var bookValidationRules = new List<Func<Book, bool>>()
+            {
+                b => !string.IsNullOrWhiteSpace(b.Name),
+                b => !string.IsNullOrWhiteSpace(b.Author)
+            };
+
+            bool isBookValud = bookValidationRules.All(rule => rule(book));
         }
 
         private static void Sets()
