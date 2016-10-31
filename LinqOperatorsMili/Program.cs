@@ -18,8 +18,66 @@ namespace LinqOperatorsMili
             //Sets();
             //Quantifiers();
             //Projection();
+            Joins();
 
         }
+
+        private static void Joins()
+        {
+            var employees = new List<Employee> {
+                new Employee { ID=1, Name="Scott", DepartmentID=1 },
+                new Employee { ID=2, Name="Poonam", DepartmentID=1 },
+                new Employee { ID=3, Name="Andy", DepartmentID=2}
+            };
+
+            var departments = new List<Department> {
+                new Department { ID=1, Name="Engineering" },
+                new Department { ID=2, Name="Sales" },
+                new Department { ID=3, Name="Skunkworks" }
+            };
+
+            var query1 =
+                from d in departments
+                join e in employees on d.ID equals e.DepartmentID
+                select new
+                {
+                    DepartmentName = d.Name,
+                    EmployeeName = e.Name
+                };
+
+            var query2 =
+                departments.Join(employees,
+                d => d.ID,
+                e => e.DepartmentID,
+                (d, e) => new
+                {
+                    DepartmentName = d.Name,
+                    EmployeeName = e.Name
+                });
+
+            var query3 =
+                departments.GroupJoin(employees,
+                d => d.ID,
+                e => e.DepartmentID,
+                (d, eg) => new
+                {
+                    DepartmentName = d.Name,
+                    Employees = eg
+                });
+
+            var query4 =
+                from d in departments
+                join e in employees on d.ID equals e.DepartmentID
+                    into eg //This makes this comprehensive query into a group joion.
+                select new
+                {
+                    DepartmentName = d.Name,
+                    Employees = eg
+                };
+
+
+        }
+
 
         private static void Projection()
         {
