@@ -51,7 +51,6 @@ namespace LinqOperatorsMili
               
         }
 
-
         private static void Joins()
         {
             var employees = new List<Employee> {
