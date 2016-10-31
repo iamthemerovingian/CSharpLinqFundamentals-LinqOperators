@@ -18,9 +18,39 @@ namespace LinqOperatorsMili
             //Sets();
             //Quantifiers();
             //Projection();
-            Joins();
+            //Joins();
+            Grouping();
 
         }
+
+        private static void Grouping()
+        {
+            var employees = new List<Employee> {
+                new Employee { ID=1, Name="Scott", DepartmentID=1 },
+                new Employee { ID=2, Name="Poonam", DepartmentID=1 },
+                new Employee { ID=3, Name="Andy", DepartmentID=2}
+            };
+
+
+            var query1 =
+                from e in employees
+                group e by e.DepartmentID into eg
+                select new
+                {
+                    DepartmentID = eg.Key,
+                    employees = eg
+                };
+
+            var query2 =
+                employees.GroupBy(e => e.DepartmentID)
+                .Select(eg => new
+                {
+                    employees = eg,
+                    DepartmenID = eg.Key
+                });
+              
+        }
+
 
         private static void Joins()
         {
@@ -77,7 +107,6 @@ namespace LinqOperatorsMili
 
 
         }
-
 
         private static void Projection()
         {
